@@ -29,3 +29,9 @@ $ python manage.py runserver
 # Windows and Linux
 $ python manage.py createsuperuser
 ```
+
+#### 6. To create an app.
+```bash
+# Windows and Linux
+$ python manage.py startapp your_app_
+```
