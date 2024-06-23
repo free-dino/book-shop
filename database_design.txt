@@ -1,0 +1,120 @@
+Enum order_status {
+  Pending
+  Shipped
+  Delivered
+  Cancelled
+}
+
+Enum method {
+  Card
+  Cash
+}
+
+Table Staff {
+  StaffID varchar [pk]
+  FirstName varchar [not null]
+  LastName varchar [not null]
+  Email varchar [not null, unique]
+  Password varchar [not null, note: 'storing hashed password']
+  PhoneNumber varchar
+  Address varchar
+  City varchar
+  State varchar
+  Zipcode varchar
+  Country varchar
+  Position varchar
+  DateHired datetime [not null]
+}
+
+Table Books {
+  BookID varchar [primary key]
+  Title varchar [not null]
+  AuthorID varchar [not null, ref: > Authors.AuthorID]
+  ISBN varchar [not null]
+  GenreID varchar [not null, ref: > Genres.GenreID]
+  Price float [not null]
+  Publisher varchar
+  PublicationDate datetime
+  Description text
+  CoverImage varchar
+  StockQuantity integer [not null]
+}
+
+Table Authors {
+  AuthorID varchar [primary key]
+  FirstName varchar [not null]
+  LastName varchar [not null]
+  Biography text
+  DateOfBirth datetime
+  Nationality varchar
+}
+
+Table Genres {
+  GenreID varchar [primary key]
+  GenreName varchar [not null]
+}
+
+Table Customers {
+  CustomerID varchar [primary key]
+  FirstName varchar [not null]
+  LastName varchar [not null]
+  Email varchar [not null, unique]
+  Password varchar [not null, note: 'storing hashed password']
+  PhoneNumber varchar
+  Address varchar
+  City varchar
+  State varchar
+  Zipcode varchar
+  Country varchar
+  DateRegistered datetime [not null]
+}
+
+Table Orders {
+  OrderID varchar [primary key]
+  CustomerID varchar [not null, ref: > Customers.CustomerID]
+  StaffID varchar [not null, ref: > Staff.StaffID]
+  OrderDate datetime [not null]
+  TotalAmount float [not null]
+  ShippingAddress varchar [not null]
+  BillingAddress varchar [not null]
+  OrderStatus order_status [not null]
+}
+
+Table OrderDetails {
+  OrderDetailID varchar [primary key]
+  OrderID varchar [not null, ref: > Orders.OrderID]
+  BookID varchar [not null, ref: > Books.BookID]
+  Quantity integer [not null]
+  Price float [not null]
+}
+
+Table Reviews {
+  ReviewID varchar [primary key]
+  BookID varchar [not null, ref: > Books.BookID]
+  CustomerID varchar [not null, ref: > Customers.CustomerID]
+  Rating integer [not null, note: 'check: > 0 AND <= 5']
+  ReviewText text
+  ReviewDate datetime [not null]
+}
+
+Table ShoppingCarts {
+  CartID varchar [primary key]
+  CustomerID varchar [not null, ref: > Customers.CustomerID]
+  BookID varchar [not null, ref: > Books.BookID]
+  Quantity integer [not null]
+}
+
+Table Payments {
+  PaymentID varchar [primary key]
+  OrderID varchar [not null, ref: > Orders.OrderID]
+  PaymentDate datetime [not null]
+  PaymentAmount float [not null]
+  PaymentMethod method [not null]
+  TransactionID varchar
+}
+
+Table Wishlist {
+  WishlistID varchar [primary key]
+  CustomerID varchar [not null, ref: > Customers.CustomerID]
+  BookID varchar [not null, ref: > Books.BookID]
+}
