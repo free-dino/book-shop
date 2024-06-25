@@ -118,3 +118,10 @@ Table Wishlist {
   CustomerID varchar [not null, ref: > Customers.CustomerID]
   BookID varchar [not null, ref: > Books.BookID]
 }
+
+Table BookViews {
+  ViewID varchar [primary key]
+  CustomerID varchar [not null, ref: > Customers.CustomerID]
+  BookID varchar [not null, ref: > Books.BookID]
+  ViewDate datetime [not null]
+}
